@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: gt7-setup-advisor:latest
+    container_name: gt7-setup-web
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      - NEXT_TELEMETRY_DISABLED=1
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - gt7-network
+
+  db:
+    image: postgres:16-alpine
+    container_name: gt7-setup-db
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER:-gt7admin}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-gt7securepass}
+      - POSTGRES_DB=${POSTGRES_DB:-gt7setup}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - gt7-network
+
+networks:
+  gt7-network:
+    driver: bridge
+
+volumes:
+  pgdata:
+    driver: local

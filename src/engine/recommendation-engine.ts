@@ -9,11 +9,48 @@ import { SetupRequest, SetupResult, MIN_NATURAL_FREQ_HIGH_DOWNFORCE } from '../c
 const clamp = (val: number, min: number, max: number) => Math.min(Math.max(val, min), max);
 
 const DATABASE_VEICULOS: Record<string, { cat: string, tracao: string }> = {
+  // Gr.4
   "Audi TT Cup '16": { cat: "Gr.4", tracao: "FF" },
+  "Alfa Romeo 4C Gr.4": { cat: "Gr.4", tracao: "MR" },
+  "BMW M4 Gr.4": { cat: "Gr.4", tracao: "FR" },
+  "Ferrari 458 Italia Gr.4": { cat: "Gr.4", tracao: "MR" },
+  "Ford Mustang Gr.4": { cat: "Gr.4", tracao: "FR" },
+  "Honda NSX Gr.4": { cat: "Gr.4", tracao: "MR" },
+  "Lamborghini Huracán Gr.4": { cat: "Gr.4", tracao: "AWD" },
+  "Mazda Atenza Gr.4": { cat: "Gr.4", tracao: "FR" },
+  "Nissan GT-R Gr.4": { cat: "Gr.4", tracao: "AWD" },
+  "Subaru WRX Gr.4": { cat: "Gr.4", tracao: "AWD" },
+  "TOYOTA 86 Gr.4": { cat: "Gr.4", tracao: "FR" },
+  "Porsche Cayman GT4 Clubsport '16": { cat: "Gr.4", tracao: "MR" },
+  // Gr.3
   "Mercedes-AMG GT3 '20": { cat: "Gr.3", tracao: "FR" },
-  "Mazda 787B '91": { cat: "Gr.1", tracao: "MR" },
   "Ferrari 296 GT3 '23": { cat: "Gr.3", tracao: "MR" },
-  "Porsche 911 GT3 R (992) '22": { cat: "Gr.3", tracao: "MR" }
+  "Porsche 911 GT3 R (992) '22": { cat: "Gr.3", tracao: "MR" },
+  "Audi R8 LMS Evo '19": { cat: "Gr.3", tracao: "AWD" },
+  "BMW M6 GT3 Endurance Model '16": { cat: "Gr.3", tracao: "FR" },
+  "Lamborghini Huracán GT3 '15": { cat: "Gr.3", tracao: "AWD" },
+  "MAZDA RX-VISION GT3 CONCEPT": { cat: "Gr.3", tracao: "FR" },
+  "McLaren 650S GT3 '15": { cat: "Gr.3", tracao: "MR" },
+  "Nissan GT-R NISMO GT3 '18": { cat: "Gr.3", tracao: "FR" },
+  "Ford GT Race Car '18": { cat: "Gr.3", tracao: "MR" },
+  // Gr.2
+  "Audi RS 5 Turbo DTM '19": { cat: "Gr.2", tracao: "FR" },
+  "Honda NSX CONCEPT-GT '16": { cat: "Gr.2", tracao: "MR" },
+  "Nissan GT-R NISMO GT500 '16": { cat: "Gr.2", tracao: "FR" },
+  "Lexus RC F GT500 '16": { cat: "Gr.2", tracao: "FR" },
+  // Gr.1
+  "Mazda 787B '91": { cat: "Gr.1", tracao: "MR" },
+  "Porsche 919 Hybrid '16": { cat: "Gr.1", tracao: "AWD" },
+  "Audi R18 '16": { cat: "Gr.1", tracao: "AWD" },
+  "TOYOTA GR010 HYBRID '21": { cat: "Gr.1", tracao: "AWD" },
+  "Toyota TS050 - Hybrid '16": { cat: "Gr.1", tracao: "AWD" },
+  "Jaguar XJR-9 '88": { cat: "Gr.1", tracao: "MR" },
+  // Gr.B
+  "Lancia Delta HF Integrale Rally Car '92": { cat: "Gr.B", tracao: "AWD" },
+  "Peugeot 205 Turbo 16 Evolution 2 '86": { cat: "Gr.B", tracao: "AWD" },
+  "Ford Focus Gr.B Rally Car": { cat: "Gr.B", tracao: "AWD" },
+  "Subaru Impreza Rally Car '98": { cat: "Gr.B", tracao: "AWD" },
+  "Audi Sport quattro S1 Pikes Peak '87": { cat: "Gr.B", tracao: "AWD" },
 };
 
 function sanitizarSetupFinal(setup: SetupResult): SetupResult {

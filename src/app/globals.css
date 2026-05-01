@@ -1,0 +1,254 @@
+@import "tailwindcss";
+
+/* ═══════════════════════════════════════════════════════════════════
+   GT7 SETUP ADVISOR — TELEMETRY DESIGN SYSTEM
+   Inspired by race engineering HUDs and pit-wall displays
+   ═══════════════════════════════════════════════════════════════════ */
+
+@theme {
+  /* Core Palette */
+  --color-gt-black: #0a0a0f;
+  --color-gt-surface: #12121a;
+  --color-gt-card: #1a1a28;
+  --color-gt-card-hover: #222236;
+  --color-gt-border: #2a2a3e;
+  --color-gt-border-glow: #3d3d5c;
+
+  /* Accent Colors — Racing Theme */
+  --color-gt-cyan: #00e5ff;
+  --color-gt-cyan-dim: #00b8d4;
+  --color-gt-orange: #ff6d00;
+  --color-gt-orange-dim: #e65100;
+  --color-gt-green: #00e676;
+  --color-gt-green-dim: #00c853;
+  --color-gt-red: #ff1744;
+  --color-gt-yellow: #ffd600;
+  --color-gt-purple: #d500f9;
+  --color-gt-blue: #448aff;
+
+  /* Text Hierarchy */
+  --color-gt-text: #e8e8f0;
+  --color-gt-text-secondary: #9898b0;
+  --color-gt-text-muted: #606078;
+
+  /* Shadows & Glows */
+  --shadow-gt-glow-cyan: 0 0 20px rgba(0, 229, 255, 0.15), 0 0 60px rgba(0, 229, 255, 0.05);
+  --shadow-gt-glow-orange: 0 0 20px rgba(255, 109, 0, 0.15), 0 0 60px rgba(0, 0, 0, 0.3);
+  --shadow-gt-card: 0 4px 24px rgba(0, 0, 0, 0.4), 0 1px 4px rgba(0, 0, 0, 0.3);
+  --shadow-gt-card-hover: 0 8px 40px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 229, 255, 0.08);
+
+  /* Spacing */
+  --spacing-gt-xs: 0.25rem;
+  --spacing-gt-sm: 0.5rem;
+  --spacing-gt-md: 1rem;
+  --spacing-gt-lg: 1.5rem;
+  --spacing-gt-xl: 2rem;
+  --spacing-gt-2xl: 3rem;
+
+  /* Animation Timings */
+  --animate-gt-fast: 150ms;
+  --animate-gt-normal: 300ms;
+  --animate-gt-slow: 500ms;
+
+  /* Radius */
+  --radius-gt-sm: 6px;
+  --radius-gt-md: 10px;
+  --radius-gt-lg: 16px;
+  --radius-gt-xl: 24px;
+
+  /* Fonts */
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', ui-monospace, monospace;
+  --font-sans: 'Inter', 'Outfit', system-ui, -apple-system, sans-serif;
+}
+
+/* ── Base Resets ─────────────────────────────────────────────────── */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: var(--color-gt-black);
+  color: var(--color-gt-text);
+  font-family: var(--font-sans);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── Scrollbar Styling ──────────────────────────────────────────── */
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-gt-surface);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-gt-border-glow);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gt-cyan-dim);
+}
+
+/* ── Keyframe Animations ────────────────────────────────────────── */
+
+@keyframes gt-fade-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes gt-slide-up {
+  from { opacity: 0; transform: translateY(30px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes gt-pulse-glow {
+  0%, 100% { box-shadow: 0 0 8px rgba(0, 229, 255, 0.2); }
+  50% { box-shadow: 0 0 24px rgba(0, 229, 255, 0.4); }
+}
+
+@keyframes gt-scan-line {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+@keyframes gt-number-reveal {
+  from { opacity: 0; transform: scale(0.8); filter: blur(4px); }
+  to { opacity: 1; transform: scale(1); filter: blur(0); }
+}
+
+@keyframes gt-bar-fill {
+  from { width: 0%; }
+}
+
+@keyframes gt-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ── Utility Classes ────────────────────────────────────────────── */
+
+.gt-animate-fade-in {
+  animation: gt-fade-in 0.5s ease-out forwards;
+}
+
+.gt-animate-slide-up {
+  animation: gt-slide-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.gt-animate-number {
+  animation: gt-number-reveal 0.4s ease-out forwards;
+}
+
+.gt-card {
+  background: var(--color-gt-card);
+  border: 1px solid var(--color-gt-border);
+  border-radius: var(--radius-gt-lg);
+  box-shadow: var(--shadow-gt-card);
+  transition: all 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.gt-card:hover {
+  border-color: var(--color-gt-border-glow);
+  box-shadow: var(--shadow-gt-card-hover);
+  transform: translateY(-2px);
+}
+
+.gt-card-selected {
+  border-color: var(--color-gt-cyan) !important;
+  box-shadow: var(--shadow-gt-glow-cyan) !important;
+}
+
+.gt-card-static {
+  background: var(--color-gt-card);
+  border: 1px solid var(--color-gt-border);
+  border-radius: var(--radius-gt-lg);
+  box-shadow: var(--shadow-gt-card);
+}
+
+.gt-mono {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+.gt-label {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-gt-text-muted);
+}
+
+.gt-value {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-gt-cyan);
+  letter-spacing: -0.03em;
+}
+
+.gt-value-sm {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-gt-text);
+}
+
+/* Glassmorphism header */
+.gt-glass {
+  background: rgba(18, 18, 26, 0.7);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid var(--color-gt-border);
+}
+
+/* Scan line effect for telemetry vibe */
+.gt-scanline::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-gt-cyan), transparent);
+  opacity: 0.4;
+  animation: gt-scan-line 4s linear infinite;
+  pointer-events: none;
+}
+
+/* ── Bar Indicator ──────────────────────────────────────────────── */
+
+.gt-bar-track {
+  height: 6px;
+  background: var(--color-gt-border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.gt-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Responsive Breakpoints ─────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .gt-value { font-size: 1.25rem; }
+  .gt-value-sm { font-size: 0.875rem; }
+}
