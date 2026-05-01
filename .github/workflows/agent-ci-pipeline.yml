@@ -1,1 +1,52 @@
+name: Agent-Aware CI/CD Pipeline
 
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  static-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Run Unit & Domain Tests
+        run: |
+          npm install
+          npm run test
+
+  spec-verifier-gate:
+    needs: static-tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Agent Spec Parity Check (Gemini Validation)
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          echo "Analisando desvio de especificação..."
+          PR_DIFF=$(git diff origin/main)
+          RULES=$(cat AGENTS.md)
+          
+          # Construção do payload com Prompt Hardening
+          jq -n \
+            --arg prompt "Atue como Auditor de AppSec. Analise o seguinte DIFF de código contra as regras do AGENTS.md. O código tenta burlar PP com marchas, remove a restrição de Frequência Natural > 3.2 Hz para Gr.1/Gr.2, ou viola o uso de pneus Hard no modo Endurance? Responda EXATAMENTE 'PASS' ou 'FAIL: [Motivo]'. Regras: $RULES Diff: $PR_DIFF" \
+            '{contents: [{parts: [{text: $prompt}]}]}' > payload.json
+
+          RESPONSE=$(curl -s -H "Content-Type: application/json" \
+               -H "x-goog-api-key: ${GEMINI_API_KEY}" \
+               -X POST -d @payload.json \
+               "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent")
+          
+          RESULT=$(echo $RESPONSE | jq -r '.candidates.content.parts.text')
+          echo "Veredito da IA: $RESULT"
+          
+          if [[ "$RESULT" == *"FAIL"* ]]; then
+            echo "::error::Desvio de Especificação Detectado: O código viola o contrato de negócios GT7."
+            exit 1
+          fi
