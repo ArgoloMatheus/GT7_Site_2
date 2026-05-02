@@ -4,7 +4,7 @@
 
 export type CategoriaVeiculo = 'Gr.4' | 'Gr.3' | 'Gr.2' | 'Gr.1' | 'Gr.B';
 export type TipoTracao = 'FF' | 'FR' | 'MR' | 'AWD' | '4WD';
-export type EstiloPilotagem = 'Agressivo' | 'Gerenciamento_Endurance';
+export type EstiloPilotagem = 'Agressivo' | 'Equilibrado' | 'Gerenciamento_Endurance';
 
 export interface Veiculo {
   nome: string;
@@ -12,20 +12,23 @@ export interface Veiculo {
   tracao: TipoTracao;
 }
 
-export interface Pista {
-  nome: string;
-  regiao: string;
-  caracteristicas: {
+// Payload de entrada da API (conforme contrato do usuário)
+export interface SetupRequest {
+  veiculo: Veiculo;
+  pista: { id: string };
+  estilo: EstiloPilotagem;
+}
+
+// Objeto interno para o motor de recomendação
+export interface EngineParams {
+  veiculo: Veiculo;
+  pista: {
+    id: string;
+    nome: string;
     zebrasAgressivas: boolean;
     exigeDownforce: boolean;
   };
-}
-
-export interface SetupRequest {
-  veiculo: Veiculo;
-  pista: Pista;
   estilo: EstiloPilotagem;
-  configuracaoAtual?: Partial<SetupResult>;
 }
 
 export interface SetupResult {

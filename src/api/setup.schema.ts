@@ -46,27 +46,27 @@ export const VALID_TRACKS = [
 
 export const VALID_CATEGORIES = ["Gr.1", "Gr.2", "Gr.3", "Gr.4", "Gr.B"] as const;
 export const VALID_TRACTION = ["FF", "FR", "MR", "AWD", "4WD"] as const;
-export const VALID_STYLES = ["Agressivo", "Gerenciamento_Endurance"] as const;
+export const VALID_STYLES = ["Agressivo", "Equilibrado", "Gerenciamento_Endurance"] as const;
 
 /**
  * Esquema de Validação para Solicitação de Setup
  */
 export const SetupRequestSchema = z.object({
   veiculo: z.object({
-    nome: z.string().min(1, "Nome do veículo é obrigatório"),
+    nome: z.string().min(1, "Nome do veículo é obrigatório").max(120),
     categoria: z.enum(VALID_CATEGORIES, {
-      errorMap: () => ({ message: "Categoria inválida. Use Gr.1 até Gr.B" })
+      errorMap: () => ({ message: "Categoria de veículo não reconhecida. Valores aceitos: Gr.1, Gr.2, Gr.3, Gr.4, Gr.B" })
     }),
-    tracao: z.enum(VALID_TRACTION),
+    tracao: z.enum(VALID_TRACTION, {
+      errorMap: () => ({ message: "Tipo de tração inválido. Valores aceitos: FF, FR, MR, AWD, 4WD" })
+    }),
   }),
   pista: z.object({
     id: z.enum(VALID_TRACKS, {
       errorMap: () => ({ message: "Identificador de pista não reconhecido pela base de dados" })
     }),
-    zebrasAgressivas: z.boolean().optional(),
-    exigeDownforce: z.boolean().optional(),
   }),
-  estilo: z.string({
+  estilo: z.enum(VALID_STYLES, {
     required_error: "Estilo de pilotagem é obrigatório"
   }),
 });

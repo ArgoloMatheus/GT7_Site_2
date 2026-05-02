@@ -4,11 +4,11 @@ import { TRACKS, REGIONS, type TrackData } from '@/data/tracks';
 import { useState, useMemo } from 'react';
 
 interface TrackSelectProps {
-  selectedTrack: TrackData | null;
-  onSelect: (track: TrackData) => void;
+  selectedTrackId: string;
+  onSelect: (id: string) => void;
 }
 
-export function TrackSelect({ selectedTrack, onSelect }: TrackSelectProps) {
+export function TrackSelect({ selectedTrackId, onSelect }: TrackSelectProps) {
   const [activeRegion, setActiveRegion] = useState<string>('Americas');
   const [search, setSearch] = useState('');
 
@@ -79,16 +79,18 @@ export function TrackSelect({ selectedTrack, onSelect }: TrackSelectProps) {
       {/* Track Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 max-h-[400px] overflow-y-auto pr-1">
         {filteredTracks.map((track, idx) => {
-          const isSelected = selectedTrack?.id === track.id;
+          const isSelected = selectedTrackId === track.id;
           return (
             <button
               key={track.id}
+              type="button"
               id={`track-card-${track.id}`}
-              onClick={() => onSelect(track)}
+              onClick={() => onSelect(track.id)}
               className={`
                 gt-card p-4 text-left cursor-pointer
                 ${isSelected ? 'gt-card-selected' : ''}
               `}
+
               style={{ animationDelay: `${idx * 30}ms` }}
             >
               <div className="flex items-start justify-between mb-2">

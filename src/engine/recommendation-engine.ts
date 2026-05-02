@@ -4,7 +4,7 @@
  * @version 1.69.1
  */
 
-import { SetupRequest, SetupResult, MIN_NATURAL_FREQ_HIGH_DOWNFORCE } from '../contracts/setup.interface';
+import { SetupRequest, SetupResult, EngineParams, MIN_NATURAL_FREQ_HIGH_DOWNFORCE } from '../contracts/setup.interface';
 
 const clamp = (val: number, min: number, max: number) => Math.min(Math.max(val, min), max);
 
@@ -66,8 +66,8 @@ function sanitizarSetupFinal(setup: SetupResult): SetupResult {
   return setup;
 }
 
-export function calcularSetup(params: SetupRequest): SetupResult {
-  if (!params.veiculo?.nome || !params.pista?.nome) {
+export function calcularSetup(params: EngineParams): SetupResult {
+  if (!params.veiculo?.nome || !params.pista?.id) {
     throw new Error("ERRO_SEGURANCA: Payload de entrada incompleto.");
   }
 
@@ -105,7 +105,7 @@ export function calcularSetup(params: SetupRequest): SetupResult {
     result.aerodinamica_diferencial.brakeBias = -2;
   }
 
-  if (pista.caracteristicas.zebrasAgressivas) {
+  if (pista.zebrasAgressivas) {
     result.suspensao.dampingCompression = { dianteira: 28, traseira: 28 };
     result.suspensao.dampingExpansion = { dianteira: 42, traseira: 42 };
   }
