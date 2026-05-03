@@ -28,7 +28,6 @@ jobs:
     name: "Restricted Lane: AI Governance"
     needs: static-analysis
     runs-on: ubuntu-latest
-    if: ${{ secrets.GEMINI_API_KEY != '' }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -37,8 +36,10 @@ jobs:
 
       - name: Check API Key Availability
         id: check-key
+        env:
+          KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
-          if [ -z "${{ secrets.GEMINI_API_KEY }}" ]; then
+          if [ -z "$KEY" ]; then
             echo "available=false" >> $GITHUB_OUTPUT
             echo "::warning::GEMINI_API_KEY não configurada. Pulando AI Governance Gate."
           else
@@ -75,19 +76,26 @@ jobs:
             '{contents: [{parts: [{text: ($prompt_template + "\n\n### ESPECIFICAÇÃO (AGENTS.md):\n" + $rules + "\n\n### MUDANÇAS (DIFF):\n" + $diff)}]}]}' > payload.json
 
           # Chamada ao modelo Gemini 3 Flash
-          RESPONSE=$(curl -s -H "Content-Type: application/json" \
+          HTTP_CODE=$(curl -s -o response.json -w "%{http_code}" \
+               -H "Content-Type: application/json" \
                -H "x-goog-api-key: ${GEMINI_API_KEY}" \
                -X POST -d @payload.json \
                "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.0-flash:generateContent")
 
-          echo "Raw API Response (debug): $(echo "$RESPONSE" | head -c 500)"
+          echo "HTTP Status: $HTTP_CODE"
 
-          RESULT=$(echo "$RESPONSE" | jq -r '.candidates[0].content.parts[0].text // empty')
+          if [ "$HTTP_CODE" != "200" ]; then
+            echo "::warning::API Gemini retornou HTTP $HTTP_CODE. Verifique a chave e o endpoint."
+            cat response.json
+            exit 1
+          fi
+
+          RESULT=$(cat response.json | jq -r '.candidates[0].content.parts[0].text // empty')
 
           if [ -z "$RESULT" ]; then
-            echo "::warning::Resposta da IA vazia ou inválida. Verifique a GEMINI_API_KEY e o endpoint."
-            echo "Veredito: SKIP (resposta inválida)"
-            exit 0
+            echo "::warning::Resposta da IA vazia ou inválida."
+            cat response.json
+            exit 1
           fi
 
           echo "Veredito da IA (Governance Gate): $RESULT"
@@ -96,3 +104,5 @@ jobs:
             echo "::error title=AI Governance Failure::Detectado desvio de especificação (Spec Drift). Verifique o AGENTS.md."
             exit 1
           fi
+
+          echo "✅ AI Governance Gate: PASS"
