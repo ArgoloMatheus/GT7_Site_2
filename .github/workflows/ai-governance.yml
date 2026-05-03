@@ -80,7 +80,7 @@ jobs:
                -H "Content-Type: application/json" \
                -H "x-goog-api-key: ${GEMINI_API_KEY}" \
                -X POST -d @payload.json \
-               "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.0-flash:generateContent")
+               "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent")
 
           echo "HTTP Status: $HTTP_CODE"
 
