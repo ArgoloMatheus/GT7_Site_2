@@ -1,8 +1,9 @@
 name: Agent-Aware CI/CD Pipeline (Tiered Lanes)
 
-on:
+"on":
   pull_request:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
   fast-lane-static:
