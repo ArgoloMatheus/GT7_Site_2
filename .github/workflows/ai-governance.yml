@@ -37,7 +37,13 @@ jobs:
           
           # Extração segura de contexto
           RULES=$(cat AGENTS.md)
-          PR_DIFF=$(git diff origin/${{ github.base_ref }}...HEAD)
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            BASE="origin/${{ github.base_ref }}"
+          else
+            BASE="${{ github.event.before }}"
+            if [ "$BASE" == "0000000000000000000000000000000000000000" ] || [ -z "$BASE" ]; then BASE="HEAD~1"; fi
+          fi
+          PR_DIFF=$(git diff $BASE...HEAD || echo "")
           
           # Blindagem de Parsing: Usando --arg do jq para evitar injeção de shell no JSON
           jq -n \
