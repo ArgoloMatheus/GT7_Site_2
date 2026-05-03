@@ -1,6 +1,8 @@
 name: AI Governance & Spec Drift Validator (v1.69)
 
-on:
+"on":
+  push:
+    branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
 
