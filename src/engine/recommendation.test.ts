@@ -6,18 +6,19 @@
 
 import { describe, it, expect } from 'vitest';
 import { calcularSetup } from './recommendation-engine';
-import { SetupRequest } from '../contracts/setup.interface';
+import { EngineParams } from '../contracts/setup.interface';
 
 describe('GT7 Recommendation Engine - Categories Gr.3 & Gr.4', () => {
   
   describe('FF Rotation Logic (Audi TT Cup \'16 - Gr.4)', () => {
     it('should recommend ARB Rear > 15% higher than Front for FF vehicles in Aggressive style', () => {
-      const request: SetupRequest = {
+      const request: EngineParams = {
         veiculo: { nome: "Audi TT Cup '16", categoria: 'Gr.4', tracao: 'FF' },
         pista: { 
+          id: "Dragon_Trail",
           nome: "Dragon Trail", 
-          regiao: "Europa", 
-          caracteristicas: { zebrasAgressivas: true, exigeDownforce: false } 
+          zebrasAgressivas: true, 
+          exigeDownforce: false 
         },
         estilo: 'Agressivo'
       };
@@ -36,12 +37,13 @@ describe('GT7 Recommendation Engine - Categories Gr.3 & Gr.4', () => {
 
   describe('Endurance Strategy (Mercedes-AMG GT3 \'20 - Gr.3)', () => {
     it('should enforce Racing Hard and Fuel Map 6 for Endurance Management style', () => {
-      const request: SetupRequest = {
+      const request: EngineParams = {
         veiculo: { nome: "Mercedes-AMG GT3 '20", categoria: 'Gr.3', tracao: 'FR' },
         pista: { 
+          id: "Sardegna_Road_Track",
           nome: "Sardegna Road Track", 
-          regiao: "Europa", 
-          caracteristicas: { zebrasAgressivas: false, exigeDownforce: true } 
+          zebrasAgressivas: false, 
+          exigeDownforce: true 
         },
         estilo: 'Gerenciamento_Endurance'
       };
@@ -56,12 +58,13 @@ describe('GT7 Recommendation Engine - Categories Gr.3 & Gr.4', () => {
 
   describe('Physics Constraints - Natural Frequency', () => {
     it('should NOT allow Natural Frequency below 3.2 Hz for High Downforce scenarios (Gr.1 reference check)', () => {
-      const request: SetupRequest = {
+      const request: EngineParams = {
         veiculo: { nome: "Mazda 787B '91", categoria: 'Gr.1', tracao: 'MR' },
         pista: { 
+          id: "Le_Mans",
           nome: "Circuit de la Sarthe", 
-          regiao: "Europa", 
-          caracteristicas: { zebrasAgressivas: false, exigeDownforce: true } 
+          zebrasAgressivas: false, 
+          exigeDownforce: true 
         },
         estilo: 'Agressivo'
       };
@@ -73,12 +76,13 @@ describe('GT7 Recommendation Engine - Categories Gr.3 & Gr.4', () => {
     });
 
     it('should provide smooth damping for tracks with aggressive kerbs (Monza)', () => {
-      const request: SetupRequest = {
+      const request: EngineParams = {
         veiculo: { nome: "Ferrari 296 GT3 '23", categoria: 'Gr.3', tracao: 'MR' },
         pista: { 
+          id: "Monza",
           nome: "Autodromo Nazionale Monza", 
-          regiao: "Europa", 
-          caracteristicas: { zebrasAgressivas: true, exigeDownforce: false } 
+          zebrasAgressivas: true, 
+          exigeDownforce: false 
         },
         estilo: 'Agressivo'
       };
