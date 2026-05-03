@@ -1,0 +1,59 @@
+name: AI Governance & Spec Drift Validator (v1.69)
+
+on:
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  static-analysis:
+    name: "Fast Lane: Syntax & Unit Tests"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install & Test
+        run: |
+          npm install
+          npm run test
+
+  ai-verifier-gate:
+    name: "Restricted Lane: AI Governance"
+    needs: static-analysis
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Spec Parity Check (Gemini 3 Flash Validation)
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          echo "Iniciando auditoria de Spec Drift contra AGENTS.md..."
+          
+          # Extração segura de contexto
+          RULES=$(cat AGENTS.md)
+          PR_DIFF=$(git diff origin/${{ github.base_ref }}...HEAD)
+          
+          # Blindagem de Parsing: Usando --arg do jq para evitar injeção de shell no JSON
+          jq -n \
+            --arg rules "$RULES" \
+            --arg diff "$PR_DIFF" \
+            --arg prompt_template "Atue como Verifier Agent especializado em GT7. Avalie o seguinte DIFF contra a especificação AGENTS.md. Identifique violações de contrato comportamental (ex: ignorar PP, modificar restrição de Frequência > 3.2Hz para Gr.1, ou falhas na imposição de Pneus Hard/FM6 em Endurance). Responda EXATAMENTE 'PASS' se estiver seguro, ou 'FAIL: [Motivo Técnico]' se houver Spec Drift." \
+            '{contents: [{parts: [{text: ($prompt_template + "\n\n### ESPECIFICAÇÃO (AGENTS.md):\n" + $rules + "\n\n### MUDANÇAS (DIFF):\n" + $diff)}]}]}' > payload.json
+
+          # Chamada ao modelo Gemini 3 Flash
+          RESPONSE=$(curl -s -H "Content-Type: application/json" \
+               -H "x-goog-api-key: ${GEMINI_API_KEY}" \
+               -X POST -d @payload.json \
+               "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.0-flash:generateContent")
+          
+          RESULT=$(echo $RESPONSE | jq -r '.candidates[0].content.parts[0].text // "FAIL: Erro no parsing da resposta da IA"')
+          echo "Veredito da IA (Governance Gate): $RESULT"
+          
+          if [[ "$RESULT" == *"FAIL"* ]]; then
+            echo "::error title=AI Governance Failure::Detectado desvio de especificação (Spec Drift). Verifique o AGENTS.md."
+            exit 1
+          fi
