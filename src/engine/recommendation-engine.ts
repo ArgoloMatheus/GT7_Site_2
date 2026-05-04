@@ -77,7 +77,7 @@ function sanitizarSetupFinal(setup: SetupResult, tracao: string): SetupResult {
 
   // Para FF: validar que traseira é 15%+ superior à dianteira
   if (tracao === 'FF') {
-    const minTraseira = s.antiRollBar.dianteira * 1.15;
+    const minTraseira = s.antiRollBar.dianteira * 1.16; // 16% para garantir > 15%
     if (s.antiRollBar.traseira < minTraseira) {
       s.antiRollBar.traseira = Math.min(minTraseira, 10);
     }
@@ -184,7 +184,7 @@ export function calcularSetup(params: EngineParams): SetupResult {
   // MITIGAÇÃO PARA FF: Induzir rotação mecânica (ARB traseira 15%+ superior)
   if (tracao === 'FF') {
     const arbDiant = result.suspensao.antiRollBar.dianteira;
-    result.suspensao.antiRollBar.traseira = Math.min(arbDiant * 1.15, 10);
+    result.suspensao.antiRollBar.traseira = Math.min(arbDiant * 1.16, 10); // 16% para garantir > 15%
     // Aumentar frequência natural traseira para compensar rigidez dianteira
     result.suspensao.naturalFrequency.traseira = result.suspensao.naturalFrequency.dianteira + 0.4;
   }
