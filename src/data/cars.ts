@@ -52,6 +52,9 @@ export const CARS: CarData[] = [
   { nome: "Toyota TS050 - Hybrid '16", categoria: 'Gr.1', tracao: 'AWD', fabricante: 'Toyota' },
   { nome: "Jaguar XJR-9 '88", categoria: 'Gr.1', tracao: 'MR', fabricante: 'Jaguar' },
 
+  // Gr.X
+  { nome: "Xiaomi SU7 Ultra '25", categoria: 'Gr.X', tracao: 'AWD', fabricante: 'Xiaomi' },
+
   // Gr.B
   { nome: "Lancia Delta HF Integrale Rally Car '92", categoria: 'Gr.B', tracao: 'AWD', fabricante: 'Lancia' },
   { nome: "Peugeot 205 Turbo 16 Evolution 2 '86", categoria: 'Gr.B', tracao: 'AWD', fabricante: 'Peugeot' },
@@ -66,6 +69,7 @@ export const CATEGORIES = [
   { id: 'Gr.2', label: 'Gr.2', desc: 'GT500 / DTM' },
   { id: 'Gr.1', label: 'Gr.1', desc: 'LMP / Group C' },
   { id: 'Gr.B', label: 'Gr.B', desc: 'Rally / Group B' },
+  { id: 'Gr.X', label: 'Gr.X', desc: 'Hypercar Elétrico' },
 ] as const;
 
 export const DRIVETRAINS = [

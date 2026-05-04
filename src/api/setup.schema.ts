@@ -44,7 +44,7 @@ export const VALID_TRACKS = [
   "BB_Raceway"
 ] as const;
 
-export const VALID_CATEGORIES = ["Gr.1", "Gr.2", "Gr.3", "Gr.4", "Gr.B"] as const;
+export const VALID_CATEGORIES = ["Gr.1", "Gr.2", "Gr.3", "Gr.4", "Gr.B", "Gr.X"] as const;
 export const VALID_TRACTION = ["FF", "FR", "MR", "AWD", "4WD"] as const;
 export const VALID_STYLES = ["Agressivo", "Equilibrado", "Gerenciamento_Endurance"] as const;
 
@@ -55,11 +55,13 @@ export const SetupRequestSchema = z.object({
   veiculo: z.object({
     nome: z.string().min(1, "Nome do veículo é obrigatório").max(120),
     categoria: z.enum(VALID_CATEGORIES, {
-      errorMap: () => ({ message: "Categoria de veículo não reconhecida. Valores aceitos: Gr.1, Gr.2, Gr.3, Gr.4, Gr.B" })
+      errorMap: () => ({ message: "Categoria de veículo não reconhecida. Valores aceitos: Gr.1, Gr.2, Gr.3, Gr.4, Gr.B, Gr.X" })
     }),
     tracao: z.enum(VALID_TRACTION, {
       errorMap: () => ({ message: "Tipo de tração inválido. Valores aceitos: FF, FR, MR, AWD, 4WD" })
     }),
+    potencia_bhp: z.number().min(100).max(2500),
+    parametros_transmissao: z.record(z.any()).optional(),
   }),
   pista: z.object({
     id: z.enum(VALID_TRACKS, {

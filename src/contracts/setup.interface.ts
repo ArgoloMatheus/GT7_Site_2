@@ -2,7 +2,7 @@
  * GT7 Setup Advisor - Core Contracts (v1.69)
  */
 
-export type CategoriaVeiculo = 'Gr.4' | 'Gr.3' | 'Gr.2' | 'Gr.1' | 'Gr.B';
+export type CategoriaVeiculo = 'Gr.4' | 'Gr.3' | 'Gr.2' | 'Gr.1' | 'Gr.B' | 'Gr.X';
 export type TipoTracao = 'FF' | 'FR' | 'MR' | 'AWD' | '4WD';
 export type EstiloPilotagem = 'Agressivo' | 'Equilibrado' | 'Gerenciamento_Endurance';
 
@@ -10,6 +10,8 @@ export interface Veiculo {
   nome: string;
   categoria: CategoriaVeiculo;
   tracao: TipoTracao;
+  potencia_bhp: number;
+  parametros_transmissao?: Record<string, unknown>;
 }
 
 // Payload de entrada da API (conforme contrato do usuário)
