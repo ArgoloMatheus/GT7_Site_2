@@ -1,11 +1,12 @@
 'use client';
 
 import { TRACKS, REGIONS, type TrackData } from '@/data/tracks';
+import { VALID_TRACKS } from '@/api/setup.schema';
 import { useState, useMemo } from 'react';
 
 interface TrackSelectProps {
-  selectedTrackId: string;
-  onSelect: (id: string) => void;
+  selectedTrackId: string | undefined;
+  onSelect: (id: typeof VALID_TRACKS[number]) => void;
 }
 
 export function TrackSelect({ selectedTrackId, onSelect }: TrackSelectProps) {

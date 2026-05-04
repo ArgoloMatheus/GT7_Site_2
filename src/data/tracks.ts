@@ -2,8 +2,10 @@
  * GT7 Setup Advisor — Static Track Data (v1.69)
  */
 
+import { VALID_TRACKS } from '@/api/setup.schema';
+
 export interface TrackData {
-  id: string;
+  id: typeof VALID_TRACKS[number];
   nome: string;
   regiao: 'Americas' | 'Europa' | 'Asia_Oceania';
   zebrasAgressivas: boolean;

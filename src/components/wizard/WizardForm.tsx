@@ -13,7 +13,7 @@ import { VALID_CATEGORIES, VALID_TRACTION, VALID_TRACKS, VALID_STYLES } from '@/
 
 const schema = z.object({
   pista: z.object({
-    id: z.enum(VALID_TRACKS, { errorMap: () => ({ message: 'Selecione uma pista válida' }) }),
+    id: z.enum(VALID_TRACKS, { errorMap: () => ({ message: 'Selecione uma pista válida' }) }).optional(),
   }),
   veiculo: z.object({
     nome: z.string().min(1, 'Nome do veículo é obrigatório').max(120),
@@ -36,7 +36,7 @@ export function WizardForm() {
   const methods = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
-      pista: { id: '' },
+      pista: { id: undefined },
       veiculo: { nome: '', categoria: 'Gr.3', tracao: 'FR' },
       estilo: 'Equilibrado',
     },
@@ -61,6 +61,10 @@ export function WizardForm() {
   const prevStep = () => setStep((s) => s - 1);
 
   const onSubmit = async (data: FormData) => {
+    if (!data.pista.id) {
+      setError('Selecione uma pista');
+      return;
+    }
     setIsSubmitting(true);
     setError(null);
     try {
@@ -95,7 +99,7 @@ export function WizardForm() {
       <TelemetryDashboard
         setup={result}
         carName={currentVeiculo.nome}
-        trackName={currentPistaId}
+        trackName={currentPistaId!}
         style={currentEstilo}
         onReset={handleReset}
       />
