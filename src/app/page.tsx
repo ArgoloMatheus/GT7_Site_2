@@ -4,268 +4,130 @@ import { WizardForm } from '@/components/wizard/WizardForm';
 
 export default function SetupAdvisorPage() {
   return (
-    <div className="min-h-screen bg-gt-black text-gt-text overflow-x-hidden">
-      <div className="fixed inset-0 pointer-events-none -z-10 bg-[radial-gradient(circle_at_top_left,rgba(0,229,255,0.18),transparent_25%),radial-gradient(circle_at_bottom_right,rgba(163,94,255,0.12),transparent_20%)]" />
+    <div className="min-h-screen bg-gt-black text-gt-text selection:bg-gt-cyan selection:text-gt-black overflow-x-hidden">
+      {/* Background Decor */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden -z-10">
+        <div className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-gt-blue/5 blur-[120px] rounded-full" />
+        <div className="absolute top-[20%] -right-[5%] w-[30%] h-[50%] bg-gt-cyan/5 blur-[100px] rounded-full" />
+        <div className="absolute -bottom-[10%] left-[20%] w-[50%] h-[30%] bg-gt-purple/5 blur-[120px] rounded-full" />
+        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-[0.03]" />
+      </div>
 
-      <header className="fixed inset-x-0 top-0 z-50 border-b border-gt-border/70 bg-black/70 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 md:px-6">
+      {/* Header */}
+      <header className="sticky top-0 z-50 gt-glass px-6 py-4">
+        <div className="max-w-6xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <div className="relative inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gt-surface border border-gt-border shadow-[0_0_18px_rgba(0,229,255,0.12)]">
-              <span className="text-lg font-black italic bg-gradient-to-br from-gt-cyan to-gt-blue bg-clip-text text-transparent">GT</span>
+            <div className="relative group">
+              <div className="absolute -inset-1 bg-gradient-to-r from-gt-cyan to-gt-blue rounded-lg blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+              <div className="relative w-10 h-10 rounded-lg bg-gt-black border border-gt-border flex items-center justify-center text-xl font-black italic tracking-tighter">
+                <span className="bg-gradient-to-br from-gt-cyan to-gt-blue bg-clip-text text-transparent">GT</span>
+              </div>
             </div>
             <div>
-              <p className="text-sm uppercase tracking-[0.35em] text-gt-text-muted">GT7 Setup Advisor</p>
-              <h1 className="text-xl font-black uppercase tracking-tight text-gt-text">Telemetry Performance Dashboard</h1>
+              <h1 className="text-lg font-black italic uppercase tracking-tighter leading-none">
+                Setup <span className="text-gt-cyan">Advisor</span>
+              </h1>
+              <div className="flex items-center gap-2 mt-1">
+                <span className="gt-mono text-[9px] text-gt-text-muted">SYSTEM STATUS:</span>
+                <span className="gt-mono text-[9px] text-gt-green animate-pulse font-bold">OPTIMIZED</span>
+                <span className="w-1 h-1 rounded-full bg-gt-border-glow mx-1" />
+                <span className="gt-mono text-[9px] text-gt-text-muted">PHYSICS v1.69</span>
+              </div>
             </div>
           </div>
 
-          <div className="hidden lg:flex items-center gap-8">
-            <div className="space-y-1 text-right">
-              <p className="text-[10px] uppercase tracking-[0.3em] text-gt-text-muted">Latency</p>
-              <p className="text-sm font-bold text-gt-cyan">12ms</p>
+          <nav className="hidden md:flex items-center gap-6">
+            <div className="flex flex-col items-end">
+              <span className="gt-mono text-[10px] text-gt-text-muted leading-none">LATENCY</span>
+              <span className="gt-mono text-xs text-gt-cyan font-bold leading-none mt-1">12ms</span>
             </div>
-            <div className="space-y-1 text-right">
-              <p className="text-[10px] uppercase tracking-[0.3em] text-gt-text-muted">Physics</p>
-              <p className="text-sm font-bold text-gt-green">v1.69</p>
+            <div className="w-[1px] h-8 bg-gt-border/50" />
+            <div className="flex flex-col items-end">
+              <span className="gt-mono text-[10px] text-gt-text-muted leading-none">VERIFIED</span>
+              <span className="gt-mono text-xs text-gt-green font-bold leading-none mt-1">SSL SECURE</span>
             </div>
-          </div>
+          </nav>
         </div>
       </header>
 
-      <div className="pt-20 lg:pt-24">
-        <div className="mx-auto flex min-h-[calc(100vh-5rem)] max-w-[1680px] flex-col gap-6 px-4 pb-10 md:px-6 lg:flex-row">
-          <aside className="hidden lg:flex w-72 flex-col gap-6 rounded-3xl border border-gt-border bg-gt-surface/80 p-5 shadow-gt-card backdrop-blur-xl">
-            <div className="flex flex-col gap-3 rounded-3xl border border-white/5 bg-black/40 p-4">
-              <div className="flex items-center gap-3">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gt-black border border-white/10 text-gt-cyan">
-                  <span className="material-symbols-outlined">sports_motorsports</span>
-                </div>
-                <div>
-                  <p className="text-xs uppercase tracking-[0.28em] text-gt-cyan">Squadra Corse</p>
-                  <p className="text-[10px] uppercase tracking-[0.28em] text-gt-text-muted">GT3 League</p>
-                </div>
-              </div>
-              <div className="space-y-1">
-                <p className="text-sm font-semibold text-gt-text">RACING OPS</p>
-                <p className="text-xs text-gt-text-muted">Posto de comando para estratégia, telemetria e setup.</p>
-              </div>
-            </div>
+      {/* Main Content */}
+      <main className="relative px-4 py-12 md:py-20">
+        <div className="max-w-6xl mx-auto">
+          {/* Welcome Text - Hidden when dashboard is active (managed by WizardForm internals) */}
+          <section className="mb-12 text-center gt-animate-fade-in">
+            <h2 className="text-3xl md:text-5xl font-black italic uppercase tracking-tighter mb-4 text-gt-text">
+              Engineered for <span className="text-gt-cyan">Performance.</span>
+            </h2>
+            <p className="max-w-2xl mx-auto text-gt-text-secondary text-sm md:text-base leading-relaxed">
+              Otimize seu tempo de volta com cálculos precisos baseados na telemetria oficial do Gran Turismo 7. 
+              Siga o wizard abaixo para gerar sua configuração personalizada.
+            </p>
+          </section>
 
-            <nav className="space-y-2 text-sm font-medium">
-              {[
-                { label: 'Dashboard', icon: 'dashboard', active: false },
-                { label: 'Car Setup', icon: 'precision_manufacturing', active: true },
-                { label: 'Telemetry', icon: 'query_stats', active: false },
-                { label: 'Community', icon: 'forum', active: false },
-                { label: 'News', icon: 'newspaper', active: false },
-              ].map((item) => (
-                <a
-                  key={item.label}
-                  className={`flex items-center gap-3 rounded-2xl px-4 py-3 transition-all ${item.active ? 'bg-gt-cyan/10 text-gt-cyan shadow-[inset_0_0_0_1px_rgba(0,229,255,0.14)]' : 'text-gt-text-muted hover:bg-white/5 hover:text-gt-text'}`}
-                  href="#"
-                >
-                  <span className="material-symbols-outlined text-base">{item.icon}</span>
-                  {item.label}
-                </a>
-              ))}
-            </nav>
-
-            <div className="space-y-3 rounded-3xl border border-white/5 bg-black/40 p-4">
-              <button className="w-full rounded-2xl bg-gt-cyan px-4 py-3 text-sm font-bold text-gt-black transition hover:bg-gt-cyan-dim">
-                Go to Track
-              </button>
-              <a className="flex items-center justify-between rounded-2xl border border-white/10 px-4 py-3 text-sm text-gt-text-muted hover:border-gt-cyan/40 hover:text-gt-text" href="#">
-                <span>System Log</span>
-                <span className="material-symbols-outlined text-sm">terminal</span>
-              </a>
-            </div>
-          </aside>
-
-          <main className="flex-1 grid gap-6">
-            <section className="grid gap-6 rounded-[2rem] border border-gt-border bg-gt-surface/80 p-6 shadow-gt-card backdrop-blur-xl">
-              <div className="flex flex-col gap-6 xl:flex-row xl:items-end xl:justify-between">
-                <div className="max-w-3xl">
-                  <p className="text-xs uppercase tracking-[0.3em] text-gt-text-muted">Circuit Selection</p>
-                  <h2 className="mt-3 text-4xl font-black uppercase tracking-tight text-gt-text">Control Center for Race Strategy</h2>
-                  <p className="mt-4 max-w-2xl text-sm leading-7 text-gt-text-secondary">
-                    Escolha o circuito, calibre seu setup e veja a telemetria instantânea com um painel inspirado em HUDs de alta performance.
-                  </p>
-                </div>
-                <div className="hidden xl:grid grid-cols-3 gap-3">
-                  {[
-                    { label: 'Speed', value: '248 KPH' },
-                    { label: 'Lateral G', value: '1.84 G' },
-                    { label: 'PP Score', value: '845.2' },
-                  ].map((stat) => (
-                    <div key={stat.label} className="rounded-3xl border border-white/10 bg-black/40 p-4">
-                      <p className="text-[10px] uppercase tracking-[0.3em] text-gt-text-muted">{stat.label}</p>
-                      <p className="mt-3 text-xl font-semibold text-gt-text">{stat.value}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="grid gap-4 lg:grid-cols-2 xl:grid-cols-4">
-                {[
-                  { title: 'Selected Circuit', value: 'Spa-Francorchamps' },
-                  { title: 'Current Model', value: '911 GT3 R (992)' },
-                  { title: 'Tire Compound', value: 'Racing Hard' },
-                  { title: 'Fuel Strategy', value: 'Lean (6)' },
-                ].map((item) => (
-                  <div key={item.title} className="rounded-3xl border border-white/10 bg-black/40 p-4">
-                    <p className="text-[10px] uppercase tracking-[0.28em] text-gt-text-muted">{item.title}</p>
-                    <p className="mt-3 text-lg font-semibold text-gt-text">{item.value}</p>
-                  </div>
-                ))}
-              </div>
-            </section>
-
-            <div className="grid gap-6 xl:grid-cols-[1.8fr_1fr]">
-              <section className="grid gap-6 rounded-[2rem] border border-gt-border bg-gt-surface/80 p-6 shadow-gt-card backdrop-blur-xl">
-                <div className="flex items-center justify-between gap-4">
-                  <div>
-                    <p className="text-xs uppercase tracking-[0.3em] text-gt-text-muted">Track Cards</p>
-                    <h3 className="mt-2 text-2xl font-black text-gt-text">Target Circuits</h3>
-                  </div>
-                  <button className="rounded-2xl border border-white/10 bg-black/40 px-4 py-2 text-xs uppercase tracking-[0.28em] text-gt-text-muted transition hover:border-gt-cyan/30 hover:text-gt-cyan">
-                    View All
-                  </button>
-                </div>
-                <div className="grid gap-4 sm:grid-cols-2">
-                  {[
-                    { title: 'Spa-Francorchamps', subtitle: 'Grand Prix Circuit', length: '7,004 m', effort: '20T' },
-                    { title: 'Suzuka Circuit', subtitle: 'Technical Layout', length: '5,807 m', effort: '18T' },
-                    { title: 'Monza', subtitle: 'High Speed', length: '5,793 m', effort: '11T' },
-                    { title: 'Nürburgring', subtitle: 'Nordschleife', length: '20,832 m', effort: '170T' },
-                  ].map((track) => (
-                    <article key={track.title} className="group overflow-hidden rounded-3xl border border-white/10 bg-black/40 p-5 transition hover:border-gt-cyan/30">
-                      <div className="mb-4 flex items-center justify-between gap-3">
-                        <div>
-                          <p className="text-[10px] uppercase tracking-[0.28em] text-gt-text-muted">{track.subtitle}</p>
-                          <h4 className="mt-2 text-lg font-semibold text-gt-text">{track.title}</h4>
-                        </div>
-                        <span className="rounded-2xl border border-gt-cyan/30 bg-gt-cyan/10 px-3 py-1 text-[10px] uppercase text-gt-cyan">ACTIVO</span>
-                      </div>
-                      <div className="grid gap-2 text-sm text-gt-text-muted">
-                        <div className="flex justify-between"><span>Length</span><span>{track.length}</span></div>
-                        <div className="flex justify-between"><span>Effort</span><span>{track.effort}</span></div>
-                      </div>
-                    </article>
-                  ))}
-                </div>
-              </section>
-
-              <aside className="space-y-6 rounded-[2rem] border border-gt-border bg-gt-surface/80 p-6 shadow-gt-card backdrop-blur-xl">
-                <div className="flex items-center justify-between gap-4">
-                  <div>
-                    <p className="text-xs uppercase tracking-[0.28em] text-gt-text-muted">Quick Calibration</p>
-                    <h3 className="mt-2 text-2xl font-black text-gt-text">Setup Control</h3>
-                  </div>
-                  <span className="rounded-2xl bg-gt-green/10 px-3 py-2 text-xs uppercase text-gt-green">Stable</span>
-                </div>
-                <div className="space-y-5 rounded-3xl border border-white/10 bg-black/40 p-4">
-                  {[
-                    { label: 'Front Downforce', value: '450', width: '65%' },
-                    { label: 'Rear Downforce', value: '820', width: '85%' },
-                    { label: 'Brake Balance', value: '-2', width: '40%' },
-                  ].map((stat) => (
-                    <div key={stat.label} className="space-y-2">
-                      <div className="flex items-center justify-between text-sm text-gt-text-muted">
-                        <span>{stat.label}</span>
-                        <span className="font-semibold text-gt-text">{stat.value}</span>
-                      </div>
-                      <div className="relative h-2 overflow-hidden rounded-full bg-gt-border">
-                        <div className="absolute inset-y-0 left-0 bg-gt-cyan" style={{ width: stat.width }} />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                <button className="w-full rounded-2xl bg-gt-cyan px-4 py-3 text-sm font-bold text-gt-black transition hover:bg-gt-cyan-dim">
-                  Apply to Telemetry
-                </button>
-              </aside>
-            </div>
-
-            <section className="rounded-[2rem] border border-gt-border bg-gt-surface/80 p-6 shadow-gt-card backdrop-blur-xl">
-              <div className="grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
-                <div className="rounded-3xl border border-white/10 bg-black/40 p-5">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-[10px] uppercase tracking-[0.28em] text-gt-text-muted">Live Network</p>
-                      <h3 className="mt-2 text-2xl font-black text-gt-text">Telemetry Feed</h3>
-                    </div>
-                    <span className="rounded-2xl bg-gt-green/10 px-3 py-2 text-xs uppercase text-gt-green">Stable</span>
-                  </div>
-                  <div className="mt-6 space-y-4">
-                    {[
-                      {
-                        label: 'SYS_UPDATE // 14:02 UTC',
-                        title: 'Spa BOP Adjustment Applied',
-                        description: "Weight penalty added to all MR drivetrains for the upcoming league endurance race.",
-                      },
-                      {
-                        label: 'COMMUNITY // 09:45 UTC',
-                        title: 'New Quali Record: 911 GT3 R',
-                        description: "User 'ApexHunter' shattered the sector 2 benchmark. Download the telemetry ghost now.",
-                      },
-                    ].map((item) => (
-                      <div key={item.label} className="rounded-3xl border border-white/10 bg-gt-surface p-4 transition hover:border-gt-cyan/30">
-                        <p className="text-[10px] uppercase tracking-[0.28em] text-gt-text-muted">{item.label}</p>
-                        <h4 className="mt-3 text-base font-semibold text-gt-text">{item.title}</h4>
-                        <p className="mt-2 text-sm text-gt-text-secondary">{item.description}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="rounded-3xl border border-white/10 bg-black/40 p-6">
-                  <p className="text-[10px] uppercase tracking-[0.28em] text-gt-text-muted">Live Calibration</p>
-                  <div className="mt-6 space-y-4">
-                    {[
-                      { label: 'Front Camber', value: '3.5°', percent: 35 },
-                      { label: 'Rear Camber', value: '2.5°', percent: 25 },
-                      { label: 'ARB Front', value: '6', percent: 60 },
-                    ].map((metric) => (
-                      <div key={metric.label}>
-                        <div className="flex items-center justify-between text-sm text-gt-text-muted mb-2">
-                          <span>{metric.label}</span>
-                          <span className="font-semibold text-gt-text">{metric.value}</span>
-                        </div>
-                        <div className="h-2 overflow-hidden rounded-full bg-gt-border">
-                          <div className="h-full bg-gt-cyan" style={{ width: `${metric.percent}%` }} />
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="mt-6 flex flex-col gap-3 border-t border-white/10 pt-4">
-                    <button className="rounded-2xl border border-gt-border px-4 py-3 text-sm uppercase tracking-[0.28em] text-gt-text-muted transition hover:border-gt-cyan/30 hover:text-gt-cyan">
-                      Reset Defaults
-                    </button>
-                    <button className="rounded-2xl bg-gt-cyan px-4 py-3 text-sm font-bold text-gt-black transition hover:bg-gt-cyan-dim">
-                      Apply Setup
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </section>
-
-            <section className="rounded-[2rem] border border-gt-border bg-gt-surface/80 p-6 shadow-gt-card backdrop-blur-xl">
-              <div className="flex flex-col gap-6 xl:flex-row xl:items-start xl:justify-between">
-                <div>
-                  <p className="text-[10px] uppercase tracking-[0.28em] text-gt-text-muted">Car Setup Wizard</p>
-                  <h3 className="mt-2 text-2xl font-black text-gt-text">Integrated Setup Workflow</h3>
-                </div>
-                <div className="rounded-2xl bg-black/40 px-4 py-3 text-sm uppercase tracking-[0.3em] text-gt-text-muted">
-                  Real-time recommendations
-                </div>
-              </div>
-              <div className="mt-6 rounded-3xl border border-white/10 bg-black/40 p-6">
-                <WizardForm />
-              </div>
-            </section>
-          </main>
+          {/* The Wizard */}
+          <section className="relative">
+            <div className="absolute -inset-4 bg-gradient-to-b from-gt-cyan/5 to-transparent rounded-[2rem] blur-2xl -z-10" />
+            <WizardForm />
+          </section>
         </div>
-      </div>
+      </main>
+
+      {/* Footer */}
+      <footer className="mt-20 border-t border-gt-border bg-gt-surface/50 px-6 py-12">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
+          <div className="space-y-4">
+            <div className="flex items-center gap-2">
+              <div className="w-6 h-6 rounded bg-gt-cyan/20 flex items-center justify-center text-gt-cyan text-xs font-bold">GT</div>
+              <span className="text-sm font-bold uppercase tracking-widest italic">Setup Advisor</span>
+            </div>
+            <p className="text-xs text-gt-text-muted leading-relaxed">
+              Desenvolvido para entusiastas de simracing. Os cálculos utilizam algoritmos de dinâmica veicular 
+              homologados para o patch 1.69 do GT7.
+            </p>
+          </div>
+          
+          <div className="space-y-4">
+            <h4 className="gt-label text-gt-text">Protocolos de Física</h4>
+            <ul className="space-y-2">
+              <li className="flex items-center gap-2 text-[10px] gt-mono text-gt-text-muted">
+                <div className="w-1 h-1 rounded-full bg-gt-cyan" />
+                RESTRIÇÃO FREQ. NATURAL {'>'} 3.2HZ
+              </li>
+              <li className="flex items-center gap-2 text-[10px] gt-mono text-gt-text-muted">
+                <div className="w-1 h-1 rounded-full bg-gt-cyan" />
+                VETORIZAÇÃO DE TORQUE DINÂMICA
+              </li>
+              <li className="flex items-center gap-2 text-[10px] gt-mono text-gt-text-muted">
+                <div className="w-1 h-1 rounded-full bg-gt-cyan" />
+                COMPENSAÇÃO DE ARRASTO AERO
+              </li>
+            </ul>
+          </div>
+
+          <div className="space-y-4">
+            <h4 className="gt-label text-gt-text">Legal</h4>
+            <p className="text-[10px] text-gt-text-muted leading-relaxed">
+              Este projeto não é afiliado à Polyphony Digital ou Sony Interactive Entertainment. 
+              Gran Turismo 7 é marca registrada.
+            </p>
+            <div className="pt-2 flex gap-4">
+              <div className="w-8 h-8 rounded-full border border-gt-border flex items-center justify-center text-gt-text-muted hover:text-gt-cyan cursor-pointer transition-colors">
+                <span className="text-xs">GH</span>
+              </div>
+              <div className="w-8 h-8 rounded-full border border-gt-border flex items-center justify-center text-gt-text-muted hover:text-gt-cyan cursor-pointer transition-colors">
+                <span className="text-xs">X</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="max-w-6xl mx-auto mt-12 pt-8 border-t border-gt-border/30 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="gt-mono text-[9px] text-gt-text-muted">© 2026 GT7 SETUP ADVISOR | ALL RIGHTS RESERVED</p>
+          <div className="flex gap-6">
+            <span className="gt-mono text-[9px] text-gt-green">LATENCY: OPTIMAL</span>
+            <span className="gt-mono text-[9px] text-gt-cyan">ENGINE: v1.69.0-STABLE</span>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

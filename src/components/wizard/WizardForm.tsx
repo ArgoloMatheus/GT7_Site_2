@@ -8,7 +8,6 @@ import { TrackSelect } from './TrackSelect';
 import { CarForm } from './CarForm';
 import { StyleSelect } from './StyleSelect';
 import { TelemetryDashboard } from '../dashboard/TelemetryDashboard';
-import { StepIndicator } from '@/components/ui/StepIndicator';
 import type { SetupRequest, SetupResult, EstiloPilotagem } from '@/contracts/setup.interface';
 import { VALID_CATEGORIES, VALID_TRACTION, VALID_TRACKS, VALID_STYLES } from '@/api/setup.schema';
 
@@ -109,22 +108,31 @@ export function WizardForm() {
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onSubmit)} className="max-w-4xl mx-auto rounded-[2rem] border border-gt-border bg-gt-surface/80 p-6 shadow-gt-card backdrop-blur-xl">
-        <div className="mb-8">
-          <p className="text-xs uppercase tracking-[0.35em] text-gt-text-muted">Wizard</p>
-          <h2 className="mt-3 text-3xl font-black uppercase tracking-tight text-gt-text">Configuração GT7</h2>
-          <p className="mt-3 max-w-2xl text-sm leading-7 text-gt-text-secondary">
-            Complete as etapas do setup para obter um ajuste preciso baseado em pista, carro e estilo de pilotagem.
-          </p>
+      <form onSubmit={handleSubmit(onSubmit)} className="max-w-4xl mx-auto">
+        {/* Step Indicator */}
+        <div className="flex justify-between mb-8 px-4">
+          {[1, 2, 3].map((s) => (
+            <div key={s} className="flex flex-col items-center flex-1 relative">
+              <div
+                className={`
+                  w-10 h-10 rounded-full flex items-center justify-center font-bold gt-mono transition-all duration-300 z-10
+                  ${step >= s ? 'bg-gt-cyan text-gt-black shadow-[0_0_15px_rgba(0,229,255,0.4)]' : 'bg-gt-card border border-gt-border text-gt-text-muted'}
+                `}
+              >
+                {s}
+              </div>
+              <span className={`text-[10px] mt-2 uppercase gt-label ${step >= s ? 'text-gt-cyan' : 'text-gt-text-muted'}`}>
+                {s === 1 ? 'Pista' : s === 2 ? 'Veículo' : 'Estilo'}
+              </span>
+              {s < 3 && (
+                <div className={`absolute top-5 left-1/2 w-full h-[1px] -z-0 ${step > s ? 'bg-gt-cyan' : 'bg-gt-border'}`} />
+              )}
+            </div>
+          ))}
         </div>
 
-        <StepIndicator
-          currentStep={step}
-          totalSteps={3}
-          labels={['Pista', 'Veículo', 'Estilo']}
-        />
-
-        <div className="min-h-[420px] gt-animate-fade-in">
+        {/* Form Steps */}
+        <div className="min-h-[400px] gt-animate-fade-in">
           {step === 1 && (
             <TrackSelect 
               selectedTrackId={currentPistaId} 
